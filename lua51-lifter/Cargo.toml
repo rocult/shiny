@@ -12,7 +12,7 @@ anyhow = { version = "1.0.65", features = ["backtrace"] }
 cfg = { path = "../cfg" }
 lua51-deserializer = { path = "../lua51-deserializer" }
 # graph = { path = "../graph", features = ["dot"] }
-petgraph = { git = "https://github.com/jujhar16/petgraph.git", branch="ensure_len_resize_with" }
+petgraph = { git = "https://github.com/jujhar16/petgraph.git", branch = "ensure_len_resize_with" }
 indexmap = "1.9.1"
 ast = { path = "../ast" }
 dhat = "0.3.1"

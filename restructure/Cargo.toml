@@ -5,8 +5,8 @@ edition.workspace = true
 authors.workspace = true
 
 [dependencies]
-petgraph = { git = "https://github.com/jujhar16/petgraph.git", branch="ensure_len_resize_with" }
-ast = { path="../ast" }
+petgraph = { git = "https://github.com/jujhar16/petgraph.git", branch = "ensure_len_resize_with" }
+ast = { path = "../ast" }
 rustc-hash = "1.1.0"
 derive_more = "0.99.17"
 enum-as-inner = "0.5.1"
