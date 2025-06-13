@@ -1,11 +1,15 @@
-Medal's LuaU decompiler
+# Shiny
 
-All credits to this project goes to in honor and memory of:
-Jujhar Singh (KowalskiFX)
-Mathias Pedersen (Costomality)
+A blazingly fast Lua(u) decompiler, forked from [medal](https://github.com/shrimp-nz/medal).
 
-While details of how they passed and our relationship with them are completely irrelevant its better if their legacy 
-does not go in vain. 
+## License
 
-Keep the Singh and Pedersen family in you guys prayers.
-We love you both.
+The [original license](https://github.com/shrimp-nz/medal/blob/main/LICENSE.txt) for medal is retained, but the license for this fork has been changed to stop people from profiting from open source work for free.
+
+## Credits
+
+All credits to the medal project goes to in honor and memory of
+- Jujhar Singh (KowalskiFX)
+- Mathias Pedersen (Costomality)
+
+Keep the Singh and Pedersen family in your guys' prayers, we love you both.
