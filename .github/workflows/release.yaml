@@ -27,6 +27,8 @@ jobs:
     name: Create a draft release
     runs-on: ubuntu-latest
     needs: get-data
+    permissions:
+      contents: write
     steps:
       - name: Push Tag
         id: tag_version
