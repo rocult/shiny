@@ -8,7 +8,7 @@ members = [
     "luau-lifter",
     "restructure",
     "luau-worker",
-    "web-server",
+    "medal",
 ]
 
 [workspace.package]
@@ -17,7 +17,7 @@ authors = [
     "Mathias Pedersen <mathias.pedersen834@gmail.com>",
     "Jujhar Singh <jujharsmc@gmail.com>",
     "Amit Bashan <amit.bashan@icloud.com>",
-    "Stefanuk12"
+    "Stefanuk12",
 ]
 
 [profile.release]
