@@ -393,7 +393,7 @@ fn make_bool_conditional(
             None if !then_value.has_side_effects() => {
                 let value = match &r#if.condition {
                     ast::RValue::Binary(ast::Binary {
-                        right: box ref value,
+                        right: box value,
                         operation: ast::BinaryOperation::And,
                         ..
                     }) => value,
