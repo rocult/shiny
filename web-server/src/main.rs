@@ -1,6 +1,10 @@
 use std::{env, io};
 
-use axum::{Router, body::Bytes, routing::post};
+use axum::{
+    Router,
+    body::Bytes,
+    routing::{get, post},
+};
 use base64::prelude::*;
 use tokio::net::TcpListener;
 use tracing::info;
@@ -27,12 +31,18 @@ async fn main() -> Result<(), io::Error> {
     let bind_addr = format!("0.0.0.0:{}", port);
 
     // Build our application with a route
-    let app = Router::new().route("/decompile", post(decompile));
+    let app = Router::new()
+        .route("/decompile", post(decompile))
+        .route("/", get(ok));
 
     // Run the web server
     let listener = TcpListener::bind(&bind_addr).await?;
     info!("🚀 Listening on {}", listener.local_addr()?);
     axum::serve(listener, app).await
+}
+
+async fn ok() -> &'static str {
+    "yep web-server is on"
 }
 
 async fn decompile(body: Bytes) -> String {
