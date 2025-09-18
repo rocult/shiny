@@ -3,5 +3,12 @@ name = "web-server"
 version = "0.1.0"
 edition.workspace = true
 authors.workspace = true
+default-run = "web-server"
 
 [dependencies]
+axum = "0.8"
+base64 = "0.22"
+luau-lifter = { path = "../luau-lifter" }
+tokio = { version = "1.42", features = ["rt-multi-thread"] }
+tracing = "0.1"
+tracing-subscriber = "0.3"
