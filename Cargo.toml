@@ -1,4 +1,5 @@
 [workspace]
+resolver = "3"
 members = [
     "cfg",
     "ast",
@@ -7,14 +8,16 @@ members = [
     "luau-lifter",
     "restructure",
     "luau-worker",
+    "web-server",
 ]
 
 [workspace.package]
-edition = "2021"
+edition = "2024"
 authors = [
     "Mathias Pedersen <mathias.pedersen834@gmail.com>",
     "Jujhar Singh <jujharsmc@gmail.com>",
     "Amit Bashan <amit.bashan@icloud.com>",
+    "Stefanuk12"
 ]
 
 [profile.release]
