@@ -107,9 +107,19 @@ jobs:
         with:
           command: "build"
           target: ${{ matrix.target }}
-          args: "--release"
+          args: "-p medal --release"
           toolchain: "nightly"
           strip: true
+
+      - name: Rename artifact
+        shell: bash
+        run: |
+          ARTIFACT_DIR="target/${{ matrix.target }}/release"
+          if [ "${{ runner.os }}" = "Windows" ]; then
+            mv "${ARTIFACT_DIR}/medal.exe" "${ARTIFACT_DIR}/${{ matrix.artifact_name }}"
+          else
+            mv "${ARTIFACT_DIR}/medal" "${ARTIFACT_DIR}/${{ matrix.artifact_name }}"
+          fi
 
       - name: Upload release asset
         uses: svenstaro/upload-release-action@v2
