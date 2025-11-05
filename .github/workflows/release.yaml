@@ -47,8 +47,8 @@ jobs:
       tag: ${{ steps.tag_version.outputs.new_tag }}
   
   build:
-    name: Build
-    runs-on: ubuntu-latest
+    name: Build on ${{ matrix.os }} for ${{ matrix.target }}
+    runs-on: ${{ matrix.os }}
     needs: draft-release
     permissions:
       contents: write
@@ -56,10 +56,36 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - target: x86_64-pc-windows-msvc
-            artifact_name: medal.exe
-          - target: x86_64-unknown-linux-gnu
-            artifact_name: medal
+          - os: windows-latest
+            target: x86_64-pc-windows-msvc
+            artifact_name: medal-x86_64.exe
+          - os: windows-latest
+            target: i686-pc-windows-msvc
+            artifact_name: medal-i686.exe
+          - os: windows-latest
+            target: aarch64-pc-windows-msvc
+            artifact_name: medal-aarch64.exe
+
+          - os: ubuntu-latest
+            target: x86_64-unknown-linux-gnu
+            artifact_name: medal-x86_64-linux
+          - os: ubuntu-latest
+            target: i686-unknown-linux-gnu
+            artifact_name: medal-i686-linux
+          - os: ubuntu-latest
+            target: aarch64-unknown-linux-gnu
+            artifact_name: medal-aarch64-linux
+          - os: ubuntu-latest
+            target: x86_64-unknown-linux-musl
+            artifact_name: medal-x86_64-linux-musl
+
+          - os: macos-latest
+            target: x86_64-apple-darwin
+            artifact_name: medal-x86_64-macos
+          - os: macos-latest
+            target: aarch64-apple-darwin
+            artifact_name: medal-aarch64-macos
+
     steps:
       - name: Checkout
         uses: actions/checkout@master
@@ -76,20 +102,20 @@ jobs:
         with:
           workspaces: "./medal -> target"
         
-      - name: Cross build binary
+      - name: Build binary
         uses: houseabsolute/actions-rust-cross@v0
         with:
-          command: build
+          command: "build"
           target: ${{ matrix.target }}
           args: "--release"
-          toolchain: nightly
+          toolchain: "nightly"
           strip: true
 
-      - name: Upload release
+      - name: Upload release asset
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: target/${{ matrix.target }}/release/${{ matrix.artifact_name }}
-          asset_name: ${{ matrix.artifact_name }}
+          asset_name: ${{ matrix.artifact_name }}-${{ needs.draft-release.outputs.tag }}
           tag: ${{ needs.draft-release.outputs.tag }}
           overwrite: true
