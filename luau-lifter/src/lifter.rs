@@ -485,11 +485,14 @@ impl<'a> Lifter<'a> {
                             (a..a + (b - 1))
                                 .map(|r| self.register(r as _).into())
                                 .collect()
-                        } else {
-                            let (tail, end) = top.take().unwrap();
+                        } else if let Some((tail, end)) = top.take() {
                             (a..end)
                                 .map(|r| self.register(r as _).into())
                                 .chain(std::iter::once(tail))
+                                .collect()
+                        } else {
+                            (a..self.function_list[self.function.id].max_stack_size)
+                                .map(|r| self.register(r as _).into())
                                 .collect()
                         };
                         statements.push(ast::Return::new(values).into());
