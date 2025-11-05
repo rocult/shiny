@@ -56,6 +56,7 @@ jobs:
       fail-fast: false
       matrix:
         include:
+          # Windows
           - os: windows-latest
             target: x86_64-pc-windows-msvc
             artifact_name: medal-x86_64.exe
@@ -66,6 +67,7 @@ jobs:
             target: aarch64-pc-windows-msvc
             artifact_name: medal-aarch64.exe
 
+          # Linux
           - os: ubuntu-latest
             target: x86_64-unknown-linux-gnu
             artifact_name: medal-x86_64-linux
@@ -79,6 +81,7 @@ jobs:
             target: x86_64-unknown-linux-musl
             artifact_name: medal-x86_64-linux-musl
 
+          # macOS
           - os: macos-latest
             target: x86_64-apple-darwin
             artifact_name: medal-x86_64-macos
@@ -126,6 +129,7 @@ jobs:
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: target/${{ matrix.target }}/release/${{ matrix.artifact_name }}
-          asset_name: ${{ matrix.artifact_name }}-${{ needs.draft-release.outputs.tag }}
+          # FIX: Removed the tag from the asset name
+          asset_name: ${{ matrix.artifact_name }}
           tag: ${{ needs.draft-release.outputs.tag }}
           overwrite: true
