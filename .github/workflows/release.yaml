@@ -60,23 +60,8 @@ jobs:
           - os: windows-latest
             target: x86_64-pc-windows-msvc
             artifact_name: medal-x86_64.exe
-          - os: windows-latest
-            target: i686-pc-windows-msvc
-            artifact_name: medal-i686.exe
-          - os: windows-latest
-            target: aarch64-pc-windows-msvc
-            artifact_name: medal-aarch64.exe
 
           # Linux
-          - os: ubuntu-latest
-            target: x86_64-unknown-linux-gnu
-            artifact_name: medal-x86_64-linux
-          - os: ubuntu-latest
-            target: i686-unknown-linux-gnu
-            artifact_name: medal-i686-linux
-          - os: ubuntu-latest
-            target: aarch64-unknown-linux-gnu
-            artifact_name: medal-aarch64-linux
           - os: ubuntu-latest
             target: x86_64-unknown-linux-musl
             artifact_name: medal-x86_64-linux-musl
@@ -129,7 +114,6 @@ jobs:
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: target/${{ matrix.target }}/release/${{ matrix.artifact_name }}
-          # FIX: Removed the tag from the asset name
           asset_name: ${{ matrix.artifact_name }}
           tag: ${{ needs.draft-release.outputs.tag }}
           overwrite: true
