@@ -47,8 +47,8 @@ jobs:
       tag: ${{ steps.tag_version.outputs.new_tag }}
   
   build:
-    name: Build
-    runs-on: ubuntu-latest
+    name: Build on ${{ matrix.os }} for ${{ matrix.target }}
+    runs-on: ${{ matrix.os }}
     needs: draft-release
     permissions:
       contents: write
@@ -56,10 +56,24 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - target: x86_64-pc-windows-msvc
-            artifact_name: medal.exe
-          - target: x86_64-unknown-linux-gnu
-            artifact_name: medal
+          # Windows
+          - os: windows-latest
+            target: x86_64-pc-windows-msvc
+            artifact_name: medal-x86_64.exe
+
+          # Linux
+          - os: ubuntu-latest
+            target: x86_64-unknown-linux-musl
+            artifact_name: medal-x86_64-linux-musl
+
+          # macOS
+          - os: macos-latest
+            target: x86_64-apple-darwin
+            artifact_name: medal-x86_64-macos
+          - os: macos-latest
+            target: aarch64-apple-darwin
+            artifact_name: medal-aarch64-macos
+
     steps:
       - name: Checkout
         uses: actions/checkout@master
@@ -76,16 +90,26 @@ jobs:
         with:
           workspaces: "./medal -> target"
         
-      - name: Cross build binary
+      - name: Build binary
         uses: houseabsolute/actions-rust-cross@v0
         with:
-          command: build
+          command: "build"
           target: ${{ matrix.target }}
-          args: "--release"
-          toolchain: nightly
+          args: "-p medal --release"
+          toolchain: "nightly"
           strip: true
 
-      - name: Upload release
+      - name: Rename artifact
+        shell: bash
+        run: |
+          ARTIFACT_DIR="target/${{ matrix.target }}/release"
+          if [ "${{ runner.os }}" = "Windows" ]; then
+            mv "${ARTIFACT_DIR}/medal.exe" "${ARTIFACT_DIR}/${{ matrix.artifact_name }}"
+          else
+            mv "${ARTIFACT_DIR}/medal" "${ARTIFACT_DIR}/${{ matrix.artifact_name }}"
+          fi
+
+      - name: Upload release asset
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
