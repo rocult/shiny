@@ -85,6 +85,6 @@ The [original license](https://github.com/shrimp-nz/medal/blob/main/LICENSE.txt)
 All credits to the medal project goes to in honor and memory of
 
 - Jujhar Singh (KowalskiFX)
-- Mathias Pedersen (Costomality)
+- Mathias Pedersen (Customality)
 
 Keep the Singh and Pedersen family in your guys' prayers, we love you both.
