@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: medal-decompiler
+    env: docker
+    dockerfilePath: ./Dockerfile
+    plan: free
+    autoDeploy: true
+    # Render automatically sets $PORT, but we hardcode 3000 in Dockerfile
+
