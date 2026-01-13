@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: moonsec-deobfuscator-bot
+    env: docker
+    dockerfilePath: ./Dockerfile
+    plan: free
+    branch: main
+    autoDeploy: true
+    dockerBuildTimeoutSeconds: 1800
+    healthCheckPath: /
+    envVars:
+      - key: DISCORD_TOKEN
+        sync: false
+      - key: DOTNET_SYSTEM_GLOBALIZATION_INVARIANT
+        value: "1"
