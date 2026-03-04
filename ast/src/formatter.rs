@@ -339,21 +339,31 @@ impl<'a, W: fmt::Write> Formatter<'a, W> {
         }
     }
 
-    pub(crate) fn format_closure(&mut self, closure: &Closure) -> fmt::Result {
-        write!(self.output, "function(")?;
-        self.format_closure_parameters(closure)?;
-        write!(self.output, ")")?;
-        self.format_closure_body(closure)?;
-        write!(self.output, "end")
-    }
+	pub(crate) fn format_closure(&mut self, closure: &Closure) -> fmt::Result {
+		write!(self.output, "function(")?;
+		self.format_closure_parameters(closure)?;
+		write!(self.output, ")")?;
+		let function = closure.function.lock();
+		if let Some(name) = &function.name {
+			write!(self.output, " -- name: {}", name)?;
+		}
+		drop(function);
+		self.format_closure_body(closure)?;
+		write!(self.output, "end")
+	}
 
-    fn format_named_function(&mut self, name: &LValue, closure: &Closure) -> fmt::Result {
-        write!(self.output, "function {}(", name)?;
-        self.format_closure_parameters(closure)?;
-        write!(self.output, ")")?;
-        self.format_closure_body(closure)?;
-        write!(self.output, "end")
-    }
+	fn format_named_function(&mut self, name: &LValue, closure: &Closure) -> fmt::Result {
+		write!(self.output, "function {}(", name)?;
+		self.format_closure_parameters(closure)?;
+		write!(self.output, ")")?;
+		let function = closure.function.lock();
+		if let Some(fname) = &function.name {
+			write!(self.output, " -- name: {}", fname)?;
+		}
+		drop(function);
+		self.format_closure_body(closure)?;
+		write!(self.output, "end")
+	}
 
     fn format_rvalue(&mut self, rvalue: &RValue) -> fmt::Result {
         match rvalue {
