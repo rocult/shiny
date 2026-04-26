@@ -68,7 +68,10 @@ impl Function {
                 | OpCode::LOP_JUMPXEQKNIL
                 | OpCode::LOP_JUMPXEQKB
                 | OpCode::LOP_JUMPXEQKN
-                | OpCode::LOP_JUMPXEQKS => {
+                | OpCode::LOP_JUMPXEQKS
+                | OpCode::LOP_GETUDATAKS
+                | OpCode::LOP_SETUDATAKS
+                | OpCode::LOP_NAMECALLUDATA => {
                     let aux = vec[pc + 1];
                     pc += 2;
                     match ins {

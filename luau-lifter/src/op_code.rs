@@ -365,6 +365,13 @@ pub enum OpCode {
     // C: constant table index (0..255)
     LOP_IDIVK,
 
+    // Atom-based userdata field access acceleration (bytecode v9+).
+    // Equivalent to GETTABLEKS / SETTABLEKS / NAMECALL but tailored to userdata field accesses.
+    // AUX: low 16 bits = constant table index, high 16 bits = cached slot.
+    LOP_GETUDATAKS,
+    LOP_SETUDATAKS,
+    LOP_NAMECALLUDATA,
+
     // Enum entry for number of opcodes, not a valid opcode by itself!
     LOP__COUNT,
 }
