@@ -12,6 +12,7 @@ pub enum Literal {
     Nil,
     Boolean(bool),
     Number(f64),
+    Integer(i64),
     String(Vec<u8>),
     Vector(f32, f32, f32),
 }
@@ -26,6 +27,7 @@ impl Reduce for Literal {
             Literal::Boolean(false) | Literal::Nil => false,
             Literal::Boolean(true)
             | Literal::Number(_)
+            | Literal::Integer(_)
             | Literal::String(_)
             | Literal::Vector(..) => true,
         })
@@ -39,6 +41,7 @@ impl Infer for Literal {
             Literal::Nil => Type::Nil,
             Literal::Boolean(_) => Type::Boolean,
             Literal::Number(_) => Type::Number,
+            Literal::Integer(_) => Type::Number,
             Literal::String(_) => Type::String,
             Literal::Vector(..) => Type::Vector,
         }
@@ -71,6 +74,7 @@ impl fmt::Display for Literal {
                 let printed = buffer.format_finite(value);
                 write!(f, "{}", printed.strip_suffix(".0").unwrap_or(printed))
             }
+            &Literal::Integer(value) => write!(f, "{}i", value),
             Literal::String(value) => {
                 write!(
                     f,
